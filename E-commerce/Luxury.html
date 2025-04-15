@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Trend Clothing - Plug Society</title>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/CSS/style.css">
+    
+    <!-- Page-specific CSS -->
+    <style>
+        .fashion-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/fashion-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .size-option {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3 class="Plug"><span>Plug</span>Society</h3>
+        <h1>Luxury Fashion</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="products.html"><i class="fas fa-laptop"></i> Tech Products</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="fashion-banner">
+        <h2>Elevate Your Style</h2>
+        <p>Discover premium luxury fashion from top brands worldwide</p>
+    </div>
+
+    <main>
+        <section class="product-category">
+            <h2><i class="fas fa-crown"></i> Luxury Collection</h2>
+            <div class="products-grid">
+                <!-- Gucci Jacket -->
+                <div class="product">
+                    <img src="images/gucci-jacket.jpg" alt="Gucci Jacket" loading="lazy">
+                    <h3>Gucci Jacket</h3>
+                    <span class="price"><i class="fas fa-tag"></i> k1200</span>
+                    
+                    <div class="size-options">
+                        <span class="size-option">M</span>
+                        <span class="size-option">L</span>
+                        <span class="size-option">XL</span>
+                    </div>
+                    
+                    <p class="color-option"><i class="fas fa-palette"></i> Color: Black</p>
+                    
+                    <button class="btn btn-block" onclick="sendWhatsApp('Gucci Jacket', 'k1200', 'M, L, XL', 'Black')">
+                        <i class="fab fa-whatsapp"></i> Inquire Now
+                    </button>
+                </div>
+                
+                <!-- Other fashion items similarly -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2>About Plug Society</h2>
+                <p>Your premier destination for the latest in tech and fashion trends.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1YdV9cSa5t/?mibextid=wwXIfr"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fas fa-laptop"></i> Tech Products</a></li>
+                    <li><a href="luxury.html"><i class="fas fa-tshirt"></i> Luxury Fashion</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h2>Contact Us</h2>
+                <p><i class="fas fa-envelope"></i> plugsociety345@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +260 976147930</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Plug Society. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function sendWhatsApp(productName, price, size, color) {
+            const phoneNumber = "+260978708716";
+            const message = `Hello, I'm interested in:\n\nProduct: ${productName}\nPrice: ${price}\n${size ? `Size: ${size}\n` : ''}${color ? `Color: ${color}\n` : ''}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+        }
+    </script>
+</body>
+</html>
