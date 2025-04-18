@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Marketplace - Plug Society</title>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Modern CSS -->
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #e90606;
+            --accent-color: #7325d3;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --white: #fff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .Plug {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .Plug span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 100%;
+            margin: 15px 0;
+            padding: 0 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1em;
+            border-right: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: #c00;
+        }
+        
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 10px;
+            background: var(--white);
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            gap: 15px;
+            scrollbar-width: none;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category {
+            min-width: 120px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .category:hover {
+            background-color: var(--light-gray);
+            transform: translateY(-2px);
+        }
+        
+        .category i {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+        }
+        
+        .category.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .category.active i {
+            color: white;
+        }
+        
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+        }
+        
+        .product {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .availability {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .in-stock {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .low-stock {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .out-of-stock {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .discount-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .new-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1.1em;
+            margin: 0 0 8px;
+            color: var(--dark-gray);
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 44px;
+        }
+        
+        .price-container {
+            margin: 10px 0;
+        }
+        
+        .price {
+            font-size: 1.3em;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .original-price {
+            font-size: 0.9em;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        
+        .rating {
+            color: #ffc107;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .review-count {
+            color: #666;
+            font-size: 0.8em;
+        }
+        
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .features li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .features i {
+            color: var(--accent-color);
+            width: 16px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .btn:hover {
+            background-color: #c00;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(233, 6, 6, 0.1);
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+        
+        .btn-large {
+            padding: 12px 20px;
+            font-size: 1em;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            margin: 25px 20px 15px;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        /* Product Modal Styles */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 900px;
+            width: 95%;
+            position: relative;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--secondary-color);
+        }
+        
+        .product-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .product-images {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .main-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .thumbnail.active {
+            border-color: var(--accent-color);
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        
+        .specs-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .specs-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .specs-table td:first-child {
+            font-weight: bold;
+            width: 30%;
+            color: var(--dark-gray);
+        }
+        
+        .availability-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .sku {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        /* Contact Section Styles */
+        .contact-section {
+            background-color: var(--white);
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+        
+        .simple-contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .simple-contact-info {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .simple-contact-form {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-method i {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            width: 40px;
+            height: 40px;
+            background: #f1e8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-method h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .contact-method p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-icon {
+            color: #666;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+        
+        .simple-contact-form h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .simple-contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 120px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 40px 0 0;
+            margin-top: 40px;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h2 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--white);
+        }
+        
+        .footer-section a i {
+            width: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: var(--white);
+            font-size: 1.2em;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #222;
+            font-size: 0.9em;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .product-details {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3 class="Plug"><span>Plug</span>Society</h3>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="Luxury.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for laptops, phones, watches...">
+        <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="categories">
+        <div class="category active" onclick="filterProducts('all')">
+            <i class="fas fa-th"></i>
+            <div>All Items</div>
+        </div>
+        <div class="category" onclick="filterProducts('laptops')">
+            <i class="fas fa-laptop"></i>
+            <div>Laptops</div>
+        </div>
+        <div class="category" onclick="filterProducts('phones')">
+            <i class="fas fa-mobile-alt"></i>
+            <div>Phones</div>
+        </div>
+        <div class="category" onclick="filterProducts('watches')">
+            <i class="fas fa-clock"></i>
+            <div>Watches</div>
+        </div>
+        <div class="category" onclick="filterProducts('accessories')">
+            <i class="fas fa-headphones"></i>
+            <div>Accessories</div>
+        </div>
+    </div>
+
+    <main>
+        <h2 class="section-title"><i class="fas fa-bolt"></i> Featured Tech Products</h2>
+        <div class="products-container" id="productsContainer">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+
+        <section id="contact" class="contact-section">
+            <h2 class="section-title"><i class="fas fa-envelope"></i> Contact Us</h2>
+            <div class="simple-contact-container">
+                <div class="simple-contact-info">
+                    <div class="contact-method">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>Call Us</h4>
+                            <p>+260 976147930</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email Us</h4>
+                            <p>plugsociety345@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <a href="https://wa.me/260976147930" class="whatsapp-link">Chat Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1YdV9cSa5t/?mibextid=wwXIfr" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="simple-contact-form">
+                    <h3>Quick Message</h3>
+                    <form id="simpleContactForm">
+                        <div class="form-row">
+                            <input type="text" placeholder="Your Name" required>
+                            <input type="email" placeholder="Email Address" required>
+                        </div>
+                        <textarea placeholder="Your message..." required></textarea>
+                        <button type="submit" class="btn btn-large">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Details Modal -->
+    <div id="productModal" class="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="product-details">
+                <div class="product-images">
+                    <img id="mainProductImage" src="" alt="Product Image" class="main-image">
+                    <div class="thumbnail-container" id="thumbnailContainer">
+                        <!-- Thumbnails will be added here by JavaScript -->
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h2 id="modalProductTitle">Product Title</h2>
+                    <div class="price-container">
+                        <span class="price" id="modalProductPrice">k00,000</span>
+                        <span class="original-price" id="modalOriginalPrice"></span>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="review-count">(24 reviews)</span>
+                    </div>
+                    
+                    <div class="availability-container">
+                        <span class="availability in-stock" id="modalAvailability">In Stock</span>
+                        <span class="sku">SKU: <span id="modalSKU">PS-001</span></span>
+                    </div>
+                    
+                    <p id="modalProductDescription">Product description goes here...</p>
+                    
+                    <h3>Specifications</h3>
+                    <table class="specs-table">
+                        <tbody id="productSpecs">
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="product-actions">
+                        <button class="btn btn-large btn-whatsapp" onclick="sendWhatsApp(document.getElementById('modalProductTitle').innerText, document.getElementById('modalProductPrice').innerText)">
+                            <i class="fab fa-whatsapp"></i> Buy Now
+                        </button>
+                        <button class="btn btn-large btn-outline" onclick="addToWishlist()">
+                            <i class="far fa-heart"></i> Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2>About Plug Society</h2>
+                <p>Your premier destination for the latest in tech and fashion trends.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1YdV9cSa5t/?mibextid=wwXIfr"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-laptop"></i> Tech Products</a></li>
+                    <li><a href="Luxury.html"><i class="fas fa-tshirt"></i> Luxury Fashion</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h2>Customer Service</h2>
+                <ul>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> FAQs</a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> Shipping Policy</a></li>
+                    <li><a href="#"><i class="fas fa-undo"></i> Returns & Refunds</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h2>Contact Us</h2>
+                <p><i class="fas fa-envelope"></i> plugsociety345@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +260 976147930</p>
+                <p><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Plug Society. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Complete product data
+        const products = [
+            {
+                id: 'dell-inspiron',
+                title: 'Dell Inspiron 15 5000 11th GEN',
+                price: 'k15,499',
+                originalPrice: 'k18,234',
+                description: 'Powerful laptop with 11th Gen Intel Core i5 processor, perfect for work and entertainment.',
+                category: 'laptops',
+                availability: 'in-stock',
+                sku: 'PS-DELL-15499',
+                images: ['/images/Dell.jpg', '/images/dell-angle.jpg', '/images/dell-back.jpg', '/images/dell-box.jpg'],
+                rating: 4.5,
+                reviews: 24,
+                badge: '-15%',
+                features: [
+                    '<i class="fas fa-microchip"></i> 2.4 GHz Core i5 processor',
+                    '<i class="fas fa-memory"></i> 8GB RAM',
+                    '<i class="fas fa-hdd"></i> 256GB SSD'
+                ],
+                specs: [
+                    ['Processor', '11th Gen Intel Core i5-1135G7 (2.4GHz up to 4.2GHz)'],
+                    ['Memory', '8GB DDR4 RAM'],
+                    ['Storage', '256GB PCIe NVMe SSD'],
+                    ['Display', '15.6" FHD (1920 x 1080) Anti-glare'],
+                    ['Graphics', 'Intel Iris Xe Graphics'],
+                    ['Operating System', 'Windows 11 Home'],
+                    ['Battery', '3-cell, 41Wh, integrated'],
+                    ['Weight', '1.75 kg'],
+                    ['Warranty', '3 months factory fault warranty'],
+                    ['Shipping', 'Free delivery']
+                ]
+            },
+            {
+                id: 'iphone-14-plus',
+                title: 'iPhone 14 PLUS +',
+                price: 'k16,999',
+                description: 'The ultimate iPhone experience with a large 6.7-inch display and advanced camera system.',
+                category: 'phones',
+                availability: 'low-stock',
+                sku: 'PS-IPH14P-16999',
+                images: ['/images/iphone 14 plus.jpg', '/images/iphone-14-plus-back.jpg', '/images/iphone-14-plus-box.jpg'],
+                rating: 5,
+                reviews: 37,
+                features: [
+                    '<i class="fas fa-mobile-alt"></i> 6.7" Super Retina XDR',
+                    '<i class="fas fa-database"></i> 128GB Storage',
+                    '<i class="fas fa-camera"></i> Dual 12MP cameras'
+                ],
+                specs: [
+                    ['Display', '6.7" Super Retina XDR display'],
+                    ['Chip', 'A15 Bionic chip'],
+                    ['Storage', '128GB'],
+                    ['Camera', 'Dual 12MP camera system (Main, Ultra Wide)'],
+                    ['Front Camera', '12MP TrueDepth camera'],
+                    ['Battery', 'Up to 26 hours video playback'],
+                    ['Water Resistance', 'IP68 (6m for 30 mins)'],
+                    ['Colors', 'Midnight, Purple, Starlight, (PRODUCT)RED, Blue'],
+                    ['Warranty', '1 year limited warranty'],
+                    ['Included', 'USB-C to Lightning Cable']
+                ]
+            },
+            {
+                id: 'pixel-9-pro',
+                title: 'Google Pixel 9 Pro XL 5G',
+                price: 'k24,999',
+                description: 'The latest Google flagship phone with advanced AI features and camera capabilities.',
+                category: 'phones',
+                availability: 'in-stock',
+                sku: 'PS-PIX9P-24999',
+                images: ['/images/GOOGLE PIXEL 9 PRO XL 5G.jpg', '/images/pixel-9-pro-back.jpg', '/images/pixel-9-pro-box.jpg'],
+                rating: 4,
+                reviews: 12,
+                badge: 'New',
+                features: [
+                    '<i class="fas fa-mobile-alt"></i> 6.7" LTPO OLED 120Hz',
+                    '<i class="fas fa-database"></i> 256GB Storage',
+                    '<i class="fas fa-camera"></i> Triple 50MP cameras'
+                ],
+                specs: [
+                    ['Display', '6.7" LTPO OLED, 120Hz refresh rate'],
+                    ['Processor', 'Google Tensor G3'],
+                    ['Storage', '256GB UFS 3.1'],
+                    ['Rear Camera', 'Triple 50MP (Wide, Ultra Wide, Telephoto)'],
+                    ['Front Camera', '12MP under-display'],
+                    ['Battery', '5000mAh with 30W fast charging'],
+                    ['OS', 'Android 14 with 5 years updates'],
+                    ['Security', 'Titan M2 security chip'],
+                    ['Colors', 'Obsidian, Snow, Hazel'],
+                    ['Warranty', '2 years manufacturer warranty']
+                ]
+            },
+            {
+                id: 'apple-watch-7',
+                title: 'Apple Watch Series 7',
+                price: 'k6,899',
+                description: 'The most advanced Apple Watch with larger display and faster charging.',
+                category: 'watches',
+                availability: 'in-stock',
+                sku: 'PS-AW7-6899',
+                images: ['/images/Apple Watch Series 7 smartwatch.jpg', '/images/apple-watch-7-back.jpg', '/images/apple-watch-7-box.jpg'],
+                rating: 4.5,
+                reviews: 42,
+                features: [
+                    '<i class="fas fa-clock"></i> 44mm Always-On Retina',
+                    '<i class="fas fa-heartbeat"></i> Blood oxygen & ECG',
+                    '<i class="fas fa-tint"></i> Water resistant 50m'
+                ],
+                specs: [
+                    ['Display', '44mm Always-On Retina LTPO OLED'],
+                    ['Chip', 'S7 SiP with 64-bit dual-core processor'],
+                    ['Storage', '32GB'],
+                    ['Sensors', 'Blood Oxygen, ECG, Heart Rate, Accelerometer, Gyroscope'],
+                    ['Water Resistance', '50 meters'],
+                    ['Battery Life', 'Up to 18 hours'],
+                    ['Charging', 'Fast charging (0-80% in 45 mins)'],
+                    ['Connectivity', 'GPS + Cellular options'],
+                    ['Colors', 'Midnight, Starlight, Green, Blue, (PRODUCT)RED'],
+                    ['Compatibility', 'iPhone 6s or later with iOS 15+']
+                ]
+            }
+        ];
+
+        // Initialize the page with products
+        function initializeProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const productHTML = createProductHTML(product);
+                container.innerHTML += productHTML;
+            });
+            
+            attachEventListeners();
+        }
+
+        // Create HTML for a product card
+        function createProductHTML(product) {
+            return `
+                <div class="product" data-id="${product.id}" data-category="${product.category}" onclick="showProductDetails('${product.id}')">
+                    <div class="product-badge">
+                        <span class="availability ${product.availability === 'in-stock' ? 'in-stock' : product.availability === 'low-stock' ? 'low-stock' : 'out-of-stock'}">
+                            ${product.availability === 'in-stock' ? 'In Stock' : product.availability === 'low-stock' ? 'Low Stock' : 'Out of Stock'}
+                        </span>
+                        ${product.badge ? `<span class="${product.badge === 'New' ? 'new-badge' : 'discount-badge'}">${product.badge}</span>` : ''}
+                    </div>
+                    <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="price-container">
+                            <span class="price">${product.price}</span>
+                            ${product.originalPrice ? `<span class="original-price">${product.originalPrice}</span>` : ''}
+                        </div>
+                        <div class="rating">
+                            ${getStarRating(product.rating)} <span class="review-count">(${product.reviews} reviews)</span>
+                        </div>
+                        <ul class="features">
+                            ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <div class="product-actions">
+                            <button class="btn btn-whatsapp" onclick="event.stopPropagation();sendWhatsApp('${product.title}', '${product.price}')">
+                                <i class="fab fa-whatsapp"></i> Buy Now
+                            </button>
+                            <button class="btn btn-outline" onclick="event.stopPropagation();showProductDetails('${product.id}')">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Filter products by category
+        function filterProducts(category) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            
+            // Update active category
+            document.querySelectorAll('.category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            if (category === 'all') {
+                initializeProducts();
+                return;
+            }
+            
+            const filteredProducts = products.filter(product => product.category === category);
+            
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<div class="no-results">No products in this category.</div>';
+            } else {
+                filteredProducts.forEach(product => {
+                    container.innerHTML += createProductHTML(product);
+                });
+            }
+            
+            attachEventListeners();
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            
+            if (searchTerm.trim() === '') {
+                initializeProducts();
+                return;
+            }
+            
+            const filteredProducts = products.filter(product => 
+                product.title.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm) ||
+                product.sku.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<div class="no-results">No products found matching your search.</div>';
+            } else {
+                filteredProducts.forEach(product => {
+                    container.innerHTML += createProductHTML(product);
+                });
+            }
+            
+            attachEventListeners();
+        }
+
+        // Show product details modal
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            document.getElementById('modalProductTitle').textContent = product.title;
+            document.getElementById('modalProductPrice').textContent = product.price;
+            document.getElementById('modalProductDescription').textContent = product.description;
+            document.getElementById('modalSKU').textContent = product.sku;
+            
+            // Set availability
+            const availabilityEl = document.getElementById('modalAvailability');
+            availabilityEl.className = 'availability';
+            if (product.availability === 'in-stock') {
+                availabilityEl.classList.add('in-stock');
+                availabilityEl.textContent = 'In Stock';
+            } else if (product.availability === 'low-stock') {
+                availabilityEl.classList.add('low-stock');
+                availabilityEl.textContent = 'Low Stock';
+            } else {
+                availabilityEl.classList.add('out-of-stock');
+                availabilityEl.textContent = 'Out of Stock';
+            }
+            
+            // Set original price if available
+            const originalPriceEl = document.getElementById('modalOriginalPrice');
+            if (product.originalPrice) {
+                originalPriceEl.textContent = product.originalPrice;
+                originalPriceEl.style.display = 'inline';
+            } else {
+                originalPriceEl.style.display = 'none';
+            }
+            
+            // Set main image
+            document.getElementById('mainProductImage').src = product.images[0];
+            
+            // Set thumbnails
+            const thumbnailContainer = document.getElementById('thumbnailContainer');
+            thumbnailContainer.innerHTML = '';
+            product.images.forEach((img, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = img;
+                thumbnail.alt = `Thumbnail ${index + 1}`;
+                thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                thumbnail.onclick = function() { changeMainImage(this); };
+                thumbnailContainer.appendChild(thumbnail);
+            });
+            
+            // Set specifications
+            const specsTable = document.getElementById('productSpecs');
+            specsTable.innerHTML = '';
+            product.specs.forEach(spec => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = spec[0];
+                const valueCell = document.createElement('td');
+                valueCell.textContent = spec[1];
+                row.appendChild(nameCell);
+                row.appendChild(valueCell);
+                specsTable.appendChild(row);
+            });
+            
+            // Set rating
+            const ratingContainer = document.querySelector('.modal-content .rating');
+            ratingContainer.innerHTML = `${getStarRating(product.rating)} <span class="review-count">(${product.reviews} reviews)</span>`;
+            
+            // Show modal
+            document.getElementById('productModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Change main image when thumbnail is clicked
+        function changeMainImage(thumbnail) {
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+            document.getElementById('mainProductImage').src = thumbnail.src;
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // Generate star rating HTML
+        function getStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // WhatsApp integration
+        function sendWhatsApp(productName, price) {
+            const phoneNumber = "+260976147930";
+            const message = `Hello Plug Society,\n\nI'm interested in:\nProduct: ${productName}\nPrice: ${price}\n\nPlease provide more details.`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+        }
+        
+        // Add to wishlist
+        function addToWishlist() {
+            const productTitle = document.getElementById('modalProductTitle').textContent;
+            alert(`${productTitle} has been added to your wishlist!`);
+        }
+        
+        // Contact form submission
+        document.getElementById('simpleContactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const message = this.querySelector('textarea').value;
+            
+            const whatsappMessage = `New Contact Form Submission\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            window.open(`https://wa.me/260976147930?text=${encodedMessage}`, '_blank');
+            alert('Thank you for your message! We will contact you soon.');
+            this.reset();
+        });
+        
+        // Make search work on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+        
+        // Attach event listeners to interactive elements
+        function attachEventListeners() {
+            // Nothing needed here currently as we're using onclick attributes
+        }
+        
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProducts();
+        });
+    </script>
+</body>
+</html>
